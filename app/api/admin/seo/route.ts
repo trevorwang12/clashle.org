@@ -185,6 +185,37 @@ export async function GET() {
   }
 }
 
+export async function POST(request: NextRequest) {
+  const adminCheck = createAdminResponse()
+  if (adminCheck) {
+    logAdminAccess('/api/admin/seo', false)
+    return NextResponse.json(adminCheck, { status: adminCheck.status })
+  }
+
+  logAdminAccess('/api/admin/seo', true)
+  try {
+    // Load latest data from file before making changes
+    seoData = await loadFromFile()
+
+    const { seoSettings } = await request.json()
+
+    if (seoSettings) {
+      seoData.seoSettings = {
+        ...seoData.seoSettings,
+        ...seoSettings,
+        updatedAt: new Date().toISOString()
+      }
+
+      await saveToFile(seoData)
+      return NextResponse.json({ success: true, seoData })
+    }
+
+    return NextResponse.json({ error: 'Invalid request format' }, { status: 400 })
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to update SEO settings' }, { status: 500 })
+  }
+}
+
 export async function PUT(request: NextRequest) {
   const adminCheck = createAdminResponse()
   if (adminCheck) {
@@ -196,9 +227,9 @@ export async function PUT(request: NextRequest) {
   try {
     // Load latest data from file before making changes
     seoData = await loadFromFile()
-    
+
     const { type, updates } = await request.json()
-    
+
     if (type === 'seoSettings') {
       seoData.seoSettings = {
         ...seoData.seoSettings,
@@ -218,7 +249,7 @@ export async function PUT(request: NextRequest) {
     } else {
       return NextResponse.json({ error: 'Invalid update type' }, { status: 400 })
     }
-    
+
     await saveToFile(seoData)
     return NextResponse.json(seoData)
   } catch (error) {

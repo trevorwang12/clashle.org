@@ -35,6 +35,11 @@ export default function RootLayout({
         {/* Critical CSS inlining prevention */}
         <meta httpEquiv="Content-Security-Policy" content="style-src 'self' 'unsafe-inline' fonts.googleapis.com;" />
         
+        {/* Favicon and Icon declarations */}
+        <link rel="icon" href="/favicon.ico" sizes="48x48" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
+
         <SafeAnalytics />
         <SafeVerificationTags />
         <SafeCustomHeadTags />
