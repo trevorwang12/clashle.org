@@ -9,6 +9,7 @@ const config = {
           discardComments: { removeAll: true },
           normalizeWhitespace: false,
           minifySelectors: false,
+          calc: false, // 禁用calc优化避免解析错误
         }]
       }
     })
