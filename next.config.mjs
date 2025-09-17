@@ -9,9 +9,9 @@ const nextConfig = {
   images: {
     unoptimized: false,
     formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 86400, // 24 hours cache
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [180, 242, 273, 285, 384, 400],
+    minimumCacheTTL: 86400,
     domains: [],
     remotePatterns: [
       {
@@ -44,35 +44,51 @@ const nextConfig = {
       'lucide-react',
     ],
     serverComponentsExternalPackages: [],
-    // optimizeCss: true, // Disabled due to critters dependency issue on Vercel
+    cssChunking: 'strict',
+    optimizeCss: true,
   },
+
+  webpack: (config, { isServer }) => {
+    if (process.env.NODE_ENV === 'production' && !isServer) {
+      config.devtool = false
+    }
+    return config
+  },
+
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
     styledComponents: false,
+    reactRemoveProperties: process.env.NODE_ENV === 'production',
   },
-  
+
   // Bundle analyzer for production optimization
-  // Removed webpack customization to fix CSS being loaded as JS
-  // The custom webpack configuration was causing Next.js to generate
-  // incorrect <script> tags for CSS files instead of <link> tags
   // Performance optimizations
   swcMinify: true,
   poweredByHeader: false,
   compress: true,
-  
+
   // SEO and metadata optimizations
   generateEtags: true,
-  
+
   // Redirects for SEO
   async redirects() {
     return [
       // Add any SEO redirects here if needed
     ]
   },
-  
-  // Headers for SEO optimization
+
+  // Headers for SEO optimization and compression
   async headers() {
     return [
+      {
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=300, s-maxage=600'
+          },
+        ]
+      },
       {
         source: '/(.*)',
         headers: [

@@ -17,7 +17,7 @@ export const allGames: GameData[] = [
   {
     id: "cut-the-rope",
     name: "Cut the Rope",
-    image: "/cut-the-rope-game.png",
+    image: "/cut-the-rope-game.webp",
     rating: 4.5,
     description: "Cut the Rope是一款物理益智游戏。你的目标是切断绳子，让糖果落到Om Nom的嘴里。每个关卡都有独特的挑战，需要你运用物理知识和策略思维来解决难题。",
     category: "益智解谜",
@@ -31,7 +31,7 @@ export const allGames: GameData[] = [
   {
     id: "subway-surfers",
     name: "Subway Surfers",
-    image: "/subway-surfers-game.png",
+    image: "/subway-surfers-game.webp",
     rating: 4.8,
     description: "Subway Surfers是一款无尽跑酷游戏。在地铁轨道上奔跑，躲避列车和障碍物，收集金币和道具。游戏节奏紧张刺激，操作简单易上手。",
     category: "跑酷竞速",
@@ -45,7 +45,7 @@ export const allGames: GameData[] = [
   {
     id: "candy-crush",
     name: "Candy Crush",
-    image: "/candy-crush-game.png",
+    image: "/candy-crush-game.webp",
     rating: 4.3,
     description: "Candy Crush是一款经典的三消游戏。通过交换相邻的糖果来创造三个或更多相同颜色的糖果组合。游戏关卡设计精巧，挑战性十足。",
     category: "消除益智",
@@ -59,7 +59,7 @@ export const allGames: GameData[] = [
   {
     id: "temple-run",
     name: "Temple Run",
-    image: "/temple-run-game.png",
+    image: "/temple-run-game.webp",
     rating: 4.6,
     description: "Temple Run是一款3D无尽跑酷游戏。你需要在古老的神庙中奔跑，躲避各种陷阱和障碍，收集宝石和金币。游戏画面精美，操作流畅。",
     category: "跑酷冒险",
@@ -73,7 +73,7 @@ export const allGames: GameData[] = [
   {
     id: "fruit-ninja",
     name: "Fruit Ninja",
-    image: "/fruit-ninja-game.png",
+    image: "/fruit-ninja-game.webp",
     rating: 4.4,
     description: "Fruit Ninja是一款切水果游戏。用手指滑动屏幕来切开飞舞的水果，避免切到炸弹。游戏操作简单，但想要获得高分需要技巧和策略。",
     category: "休闲娱乐",
@@ -87,7 +87,7 @@ export const allGames: GameData[] = [
   {
     id: "angry-birds",
     name: "Angry Birds",
-    image: "/angry-birds-game.png",
+    image: "/angry-birds-game.webp",
     rating: 4.7,
     description: "Angry Birds是一款弹弓射击游戏。使用弹弓发射愤怒的小鸟来摧毁绿猪的建筑物。每种鸟类都有不同的特殊能力，需要合理运用。",
     category: "策略射击",
@@ -101,7 +101,7 @@ export const allGames: GameData[] = [
   {
     id: "plants-vs-zombies",
     name: "Plants vs Zombies",
-    image: "/plants-vs-zombies-game.png",
+    image: "/plants-vs-zombies-game.webp",
     rating: 4.9,
     description: "Plants vs Zombies是一款塔防策略游戏。在你的花园里种植各种植物来抵御僵尸的入侵。每种植物都有独特的攻击方式和特殊能力。",
     category: "塔防策略",
@@ -115,7 +115,7 @@ export const allGames: GameData[] = [
   {
     id: "doodle-jump",
     name: "Doodle Jump",
-    image: "/doodle-jump-game.png",
+    image: "/doodle-jump-game.webp",
     rating: 4.2,
     description: "Doodle Jump是一款垂直跳跃游戏。控制可爱的小怪物不断向上跳跃，踩踏平台到达更高的地方。游戏简单有趣，容易上瘾。",
     category: "休闲跳跃",
@@ -130,7 +130,7 @@ export const allGames: GameData[] = [
   {
     id: "burning-dog-game",
     name: "Take Care of Your Own Burning Dog",
-    image: "/burning-dog-game.png",
+    image: "/burning-dog-game.webp",
     rating: 4.1,
     description: "一款独特的宠物照顾游戏，你需要照顾一只特别的狗狗，帮助它完成各种挑战和冒险。游戏画面精美，玩法创新。",
     category: "模拟养成",
@@ -144,7 +144,7 @@ export const allGames: GameData[] = [
   {
     id: "dash-hunters",
     name: "Dash Hunters",
-    image: "/dash-hunters-game.png",
+    image: "/dash-hunters-game.webp",
     rating: 4.4,
     description: "Dash Hunters是一款快节奏的动作冒险游戏。在危险的世界中奔跑和战斗，收集装备，击败强大的敌人。",
     category: "动作冒险",
@@ -158,7 +158,7 @@ export const allGames: GameData[] = [
   {
     id: "frogger",
     name: "Frogger",
-    image: "/frogger-game.png",
+    image: "/frogger-game.webp",
     rating: 4.0,
     description: "经典的青蛙过河游戏重制版。帮助青蛙安全穿越马路和河流，躲避车辆和危险。简单但充满挑战性。",
     category: "街机经典",
@@ -172,7 +172,7 @@ export const allGames: GameData[] = [
   {
     id: "spear-stickman",
     name: "The Spear Stickman",
-    image: "/spear-stickman-game.png",
+    image: "/spear-stickman-game.webp",
     rating: 4.3,
     description: "火柴人投掷长矛的动作游戏。精准瞄准，投掷长矛击败敌人。游戏操作简单，但需要技巧和策略。",
     category: "动作射击",
@@ -186,7 +186,7 @@ export const allGames: GameData[] = [
   {
     id: "stickman-boy",
     name: "A Stickman Boy",
-    image: "/stickman-boy-game.png",
+    image: "/stickman-boy-game.webp",
     rating: 3.9,
     description: "跟随火柴人男孩的冒险旅程。在各种环境中跳跃、奔跑和解决谜题，体验精彩的平台游戏。",
     category: "平台冒险",
@@ -200,7 +200,7 @@ export const allGames: GameData[] = [
   {
     id: "stickman-clicker",
     name: "Stickman Clicker",
-    image: "/stickman-clicker-game.png",
+    image: "/stickman-clicker-game.webp",
     rating: 4.2,
     description: "火柴人题材的点击游戏。通过点击屏幕获得金币，购买升级和解锁新内容。简单上瘾的放置游戏。",
     category: "点击放置",
@@ -214,7 +214,7 @@ export const allGames: GameData[] = [
   {
     id: "deer-adventure",
     name: "Deer Adventure",
-    image: "/deer-adventure-game.png",
+    image: "/deer-adventure-game.webp",
     rating: 4.5,
     description: "美丽的鹿冒险游戏。在森林中探索，收集物品，完成任务。游戏画面唯美，音效优秀。",
     category: "冒险探索",

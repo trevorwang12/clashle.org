@@ -96,7 +96,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     "name": game.name,
     "description": game.description || description,
     "url": gameUrl,
-    "image": game.thumbnailUrl || '/placeholder-game.png',
+    "image": game.thumbnailUrl || '/placeholder-game.webp',
     "genre": game.category,
     "playMode": "SinglePlayer",
     "applicationCategory": "Game",
@@ -118,7 +118,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: gameUrl,
       siteName: seoSettings?.siteName || 'GAMES',
       images: [{
-        url: game.thumbnailUrl || seoSettings?.ogImage || '/placeholder-game.png',
+        url: game.thumbnailUrl || seoSettings?.ogImage || '/placeholder-game.webp',
         width: 1200,
         height: 630,
         alt: `${game.name} - Play Online Free`,
@@ -129,7 +129,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       card: 'summary_large_image',
       title,
       description,
-      images: [game.thumbnailUrl || seoSettings?.ogImage || '/placeholder-game.png'],
+      images: [game.thumbnailUrl || seoSettings?.ogImage || '/placeholder-game.webp'],
       site: seoSettings?.twitterHandle || '@rule34dle',
     },
     alternates: {
