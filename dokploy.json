@@ -1,0 +1,27 @@
+{
+  "name": "clashle",
+  "type": "application",
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "startCommand": "npm start",
+  "port": 3000,
+  "dockerfile": "./Dockerfile",
+  "dockerCompose": "./docker-compose.yml",
+  "healthCheck": {
+    "path": "/api/health",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  },
+  "environment": {
+    "NODE_ENV": "production",
+    "NEXT_TELEMETRY_DISABLED": "1",
+    "ENABLE_ADMIN": "true",
+    "NEXT_PUBLIC_DEBUG_ADS": "false"
+  },
+  "domains": [],
+  "resources": {
+    "memory": "1Gi",
+    "cpu": "0.5"
+  }
+}

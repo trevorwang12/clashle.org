@@ -13,7 +13,6 @@
     "test:coverage": "jest --coverage",
     "build:analyze": "ANALYZE=true next build",
     "export": "next export",
-    "vercel-build": "next build",
     "postbuild": "echo 'Build completed successfully'",
     "optimize:images": "node scripts/optimize-images.js",
     "audit:website": "node scripts/website-audit.js",
