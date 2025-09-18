@@ -74,7 +74,17 @@ const nextConfig = {
   // Redirects for SEO
   async redirects() {
     return [
-      // Add any SEO redirects here if needed
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.clashle.org',
+          },
+        ],
+        destination: 'https://clashle.org/:path*',
+        permanent: true,
+      },
     ]
   },
 
