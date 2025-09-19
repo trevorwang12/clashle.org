@@ -245,30 +245,34 @@ export async function DELETE(request: NextRequest) {
     logAdminAccess('/api/admin/ads', false)
     return NextResponse.json(adminCheck, { status: adminCheck.status })
   }
-  
+
   try {
     logAdminAccess('/api/admin/ads', true)
     // Load latest data from file before making changes
     adsData = await loadFromFile()
-    
+
     const { searchParams } = new URL(request.url)
     const adId = searchParams.get('id')
-    
+
     if (!adId) {
       return NextResponse.json({ error: 'Ad ID is required' }, { status: 400 })
     }
-    
+
     const adIndex = adsData.findIndex(a => a.id === adId)
-    
+
     if (adIndex === -1) {
+      console.log(`[DELETE] Ad not found: ${adId}, available ads:`, adsData.map(a => a.id))
       return NextResponse.json({ error: 'Ad not found' }, { status: 404 })
     }
-    
+
+    const deletedAd = adsData[adIndex]
     adsData.splice(adIndex, 1)
     await saveToFile(adsData)
-    
-    return NextResponse.json({ success: true })
+
+    console.log(`[DELETE] Successfully deleted ad: ${deletedAd.name} (${adId})`)
+    return NextResponse.json({ success: true, deletedAd })
   } catch (error) {
+    console.error('[DELETE] Failed to delete ad:', error)
     return NextResponse.json({ error: 'Failed to delete ad' }, { status: 500 })
   }
 }
