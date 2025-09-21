@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -12,8 +11,13 @@ import AdSlot from "@/components/SafeAdSlot"
 import YouMightAlsoLike from "@/components/YouMightAlsoLike"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
+import type { SeoSettings } from "@/lib/seo-service"
 
-export default function HotGamesPage() {
+interface HotGamesClientProps {
+  initialSeoSettings: Pick<SeoSettings, 'siteName' | 'siteDescription'>
+}
+
+export default function HotGamesPage({ initialSeoSettings }: HotGamesClientProps) {
   const [hotGames, setHotGames] = useState<any[]>([])
   const [isClient, setIsClient] = useState(false)
 
@@ -44,7 +48,7 @@ export default function HotGamesPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <Header />
+      <Header initialSeoSettings={initialSeoSettings} />
 
       {/* Ad Slot - Header Position */}
       <AdSlot position="header" className="max-w-7xl mx-auto px-4 py-2" />
@@ -173,7 +177,7 @@ export default function HotGamesPage() {
       <YouMightAlsoLike />
 
       {/* Footer */}
-      <Footer />
+      <Footer initialSeoSettings={initialSeoSettings} />
     </div>
   )
 }

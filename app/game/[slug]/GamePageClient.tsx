@@ -15,12 +15,14 @@ import AdSlot from "@/components/SafeAdSlot"
 import YouMightAlsoLike from "@/components/YouMightAlsoLike"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
+import type { SeoSettings } from "@/lib/seo-service"
 
 interface GamePageClientProps {
   params: { slug: string }
+  initialSeoSettings: Pick<SeoSettings, 'siteName' | 'siteDescription'>
 }
 
-export default function GamePageClient({ params }: GamePageClientProps) {
+export default function GamePageClient({ params, initialSeoSettings }: GamePageClientProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [relatedGames, setRelatedGames] = useState<any[]>([])
   const [game, setGame] = useState<any>(null)
@@ -135,7 +137,7 @@ export default function GamePageClient({ params }: GamePageClientProps) {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <Header />
+      <Header initialSeoSettings={initialSeoSettings} />
       
       {/* Ad Slot - Header Position */}
       <AdSlot position="header" className="max-w-7xl mx-auto px-4 py-2" />
@@ -416,7 +418,7 @@ export default function GamePageClient({ params }: GamePageClientProps) {
       <YouMightAlsoLike />
 
       {/* Footer */}
-      <Footer />
+      <Footer initialSeoSettings={initialSeoSettings} />
     </div>
   )
 }

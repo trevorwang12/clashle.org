@@ -26,27 +26,190 @@ export interface SeoSettings {
   googleSearchConsoleId?: string
   yandexWebmasterToolsId?: string
   baiduWebmasterToolsId?: string
+  customHeadTags?: string
+}
+
+export interface GamePageSeoConfig {
+  titleTemplate: string
+  descriptionTemplate: string
+  keywordsTemplate: string
+  enableBreadcrumbs?: boolean
+  enableRichSnippets?: boolean
+  enableOpenGraph?: boolean
+  enableTwitterCards?: boolean
+}
+
+export interface CategoryPageSeoConfig {
+  titleTemplate: string
+  descriptionTemplate: string
+  keywordsTemplate: string
+  enablePagination?: boolean
+}
+
+export interface HeadingStructureConfig {
+  homepage?: {
+    h1?: string
+    h2?: string
+    h3?: string
+  }
+  gamePage?: {
+    h1?: string
+    h2?: string
+    h3?: string
+  }
+  categoryPage?: {
+    h1?: string
+    h2?: string
+    h3?: string
+  }
+}
+
+export interface SeoData {
+  seoSettings: SeoSettings
+  gamePageSEO?: GamePageSeoConfig
+  categoryPageSEO?: CategoryPageSeoConfig
+  headingStructure?: HeadingStructureConfig
+}
+
+function buildDefaultSeoData(): SeoData {
+  const defaultConfig = getCurrentSiteConfig()
+
+  return {
+    seoSettings: {
+      siteName: defaultConfig.siteName,
+      siteDescription: defaultConfig.siteDescription,
+      siteUrl: defaultConfig.siteUrl,
+      siteLogo: defaultConfig.siteLogo || '/placeholder-logo.png',
+      favicon: defaultConfig.favicon || '/favicon.ico',
+      keywords: defaultConfig.keywords || ['online games', 'browser games', 'free games'],
+      author: defaultConfig.author,
+      twitterHandle: defaultConfig.twitterHandle,
+      ogImage: defaultConfig.ogImage || '/og-image.png',
+      ogTitle: `${defaultConfig.siteName} - Best Free Online Games`,
+      ogDescription: defaultConfig.siteDescription,
+      canonicalUrl: defaultConfig.siteUrl,
+      metaTags: {
+        viewport: defaultConfig.metaTags?.viewport || 'width=device-width, initial-scale=1.0',
+        themeColor: defaultConfig.metaTags?.themeColor || '#475569',
+        appleMobileWebAppTitle: defaultConfig.metaTags?.appleMobileWebAppTitle,
+        appleMobileWebAppCapable: defaultConfig.metaTags?.appleMobileWebAppCapable,
+      },
+      googleAnalyticsId: undefined,
+      googleSearchConsoleId: undefined,
+      yandexWebmasterToolsId: undefined,
+      baiduWebmasterToolsId: undefined,
+      customHeadTags: undefined,
+    },
+    gamePageSEO: {
+      titleTemplate: '{gameName} - Play Free Online | {siteName}',
+      descriptionTemplate: 'Play {gameName} for free online! {gameDescription} No download required - start playing now!',
+      keywordsTemplate: '{gameName}, {category}, free game, online game, browser game',
+      enableBreadcrumbs: true,
+      enableRichSnippets: true,
+      enableOpenGraph: true,
+      enableTwitterCards: true,
+    },
+    categoryPageSEO: {
+      titleTemplate: '{categoryName} Games - Free Online | {siteName}',
+      descriptionTemplate: 'Play the best {categoryName} games for free! Discover hundreds of exciting {categoryName} games.',
+      keywordsTemplate: '{categoryName} games, free {categoryName}, online {categoryName}',
+      enablePagination: true,
+    },
+    headingStructure: {
+      homepage: {
+        h1: '{siteName} - Best Free Online Games',
+        h2: 'Featured Games',
+        h3: 'Game Categories',
+      },
+      gamePage: {
+        h1: '{gameName}',
+        h2: 'About This Game',
+        h3: 'Game Features',
+      },
+      categoryPage: {
+        h1: '{categoryName} Games',
+        h2: 'Popular {categoryName} Games',
+        h3: 'Latest {categoryName} Games',
+      },
+    },
+  }
+}
+
+function mergeSeoData(rawData: any): SeoData {
+  const defaults = buildDefaultSeoData()
+  const mergedSeoSettings = {
+    ...defaults.seoSettings,
+    ...(rawData?.seoSettings || {}),
+    metaTags: {
+      ...defaults.seoSettings.metaTags,
+      ...(rawData?.seoSettings?.metaTags || {}),
+    },
+  }
+
+  return {
+    seoSettings: mergedSeoSettings,
+    gamePageSEO: {
+      ...defaults.gamePageSEO,
+      ...(rawData?.gamePageSEO || {}),
+    },
+    categoryPageSEO: {
+      ...defaults.categoryPageSEO,
+      ...(rawData?.categoryPageSEO || {}),
+    },
+    headingStructure: {
+      ...defaults.headingStructure,
+      ...(rawData?.headingStructure || {}),
+    },
+  }
+}
+
+function safeCreateUrl(value?: string): URL | undefined {
+  if (!value) return undefined
+  try {
+    return new URL(value)
+  } catch (error) {
+    console.warn('Invalid URL provided in SEO settings:', value, error)
+    return undefined
+  }
 }
 
 export class SeoService {
+  static getDefaultSeoData(): SeoData {
+    return buildDefaultSeoData()
+  }
+
+  static async getSeoData(): Promise<SeoData> {
+    try {
+      const data = await DataService.getSeoSettings()
+      return mergeSeoData(data)
+    } catch (error) {
+      console.error('Failed to load SEO settings:', error)
+      return buildDefaultSeoData()
+    }
+  }
+
   static async generateMetadata(): Promise<Metadata> {
     try {
-      const { seoSettings } = await DataService.getSeoSettings()
-      
+      const { seoSettings } = await this.getSeoData()
+
+      const metadataBase = safeCreateUrl(seoSettings.siteUrl)
+      const canonical = seoSettings.canonicalUrl || seoSettings.siteUrl
+      const canonicalUrl = canonical || getCurrentSiteConfig().siteUrl
+
       return {
         title: seoSettings.siteName,
         description: seoSettings.siteDescription,
         keywords: seoSettings.keywords,
         authors: [{ name: seoSettings.author }],
         generator: 'Next.js',
-        metadataBase: new URL(seoSettings.siteUrl),
+        ...(metadataBase ? { metadataBase } : {}),
         alternates: {
-          canonical: seoSettings.canonicalUrl || seoSettings.siteUrl,
+          canonical: canonicalUrl,
         },
         openGraph: {
           title: seoSettings.ogTitle || seoSettings.siteName,
           description: seoSettings.ogDescription || seoSettings.siteDescription,
-          url: seoSettings.siteUrl,
+          url: canonicalUrl,
           siteName: seoSettings.siteName,
           images: [{
             url: seoSettings.ogImage,
@@ -100,7 +263,7 @@ export class SeoService {
   
   static async getAnalyticsId(): Promise<string | null> {
     try {
-      const { seoSettings } = await DataService.getSeoSettings()
+      const { seoSettings } = await this.getSeoData()
       
       // 只返回安全的GA ID，拒绝自定义脚本
       const gaId = seoSettings.googleAnalyticsId
@@ -120,7 +283,7 @@ export class SeoService {
     baidu?: string
   }> {
     try {
-      const { seoSettings } = await DataService.getSeoSettings()
+      const { seoSettings } = await this.getSeoData()
       
       return {
         ...(seoSettings.yandexWebmasterToolsId && { yandex: seoSettings.yandexWebmasterToolsId }),
@@ -134,7 +297,7 @@ export class SeoService {
 
   static async getCustomHeadTags(): Promise<string | null> {
     try {
-      const { seoSettings } = await DataService.getSeoSettings()
+      const { seoSettings } = await this.getSeoData()
       
       const customTags = seoSettings.customHeadTags
       console.log('[DEBUG] Custom tags from settings:', customTags)

@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import GamePageClient from './GamePageClient'
 import gamesData from '@/data/games.json'
-import { promises as fs } from 'fs'
-import path from 'path'
+import { getCurrentSiteConfig } from '@/config/default-settings'
+import { SeoService } from '@/lib/seo-service'
 
 interface PageProps {
   params: { slug: string }
@@ -28,30 +28,6 @@ interface GameData {
   gameUrl?: string
 }
 
-async function loadSEOSettings() {
-  try {
-    const filePath = path.join(process.cwd(), 'data', 'seo-settings.json')
-    const fileContent = await fs.readFile(filePath, 'utf8')
-    return JSON.parse(fileContent)
-  } catch (error) {
-    console.error('Failed to load SEO settings:', error)
-    return {
-      seoSettings: {
-        siteName: 'GAMES',
-        siteUrl: 'https://rule34dle.net',
-        author: 'Gaming Platform',
-        ogImage: '/og-image.png',
-        twitterHandle: '@rule34dle'
-      },
-      gamePageSEO: {
-        titleTemplate: '{gameName} - Play Free Online | {siteName}',
-        descriptionTemplate: 'Play {gameName} for free online! {gameDescription} No download required - start playing now!',
-        keywordsTemplate: '{gameName}, {category}, free game, online game, browser game'
-      }
-    }
-  }
-}
-
 function getGameById(gameId: string): GameData | null {
   const games = gamesData as GameData[]
   return games.find(game => game.id === gameId && game.isActive) || null
@@ -69,7 +45,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
   
   // 获取SEO配置
-  const seoData = await loadSEOSettings()
+  const seoData = await SeoService.getSeoData()
   const { seoSettings, gamePageSEO } = seoData
   
   // 生成动态标题
@@ -87,7 +63,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     ?.replace('{gameName}', game.name)
     ?.replace('{category}', game.category || 'game') || `${game.name}, free game, online game`
   
-  const gameUrl = `${(seoSettings?.siteUrl || 'https://rule34dle.net').replace(/\/$/, '')}/game/${params.slug}`
+  const fallbackSiteUrl = seoSettings?.siteUrl || getCurrentSiteConfig().siteUrl
+  const gameUrl = `${(fallbackSiteUrl || '').replace(/\/$/, '')}/game/${params.slug}`
   
   // 生成结构化数据
   const jsonLd = {
@@ -149,6 +126,8 @@ export default async function GamePage({ params }: PageProps) {
     notFound()
   }
 
+  const seoData = await SeoService.getSeoData()
+
   return (
     <>
       {/* 服务端渲染的SEO标签，对搜索引擎可见 */}
@@ -157,7 +136,7 @@ export default async function GamePage({ params }: PageProps) {
         <h2>About This Game</h2>
         <h2>Game Features</h2>
       </div>
-      <GamePageClient params={params} />
+      <GamePageClient params={params} initialSeoSettings={seoData.seoSettings} />
     </>
   )
 }

@@ -9,8 +9,13 @@ import AdSlot from "@/components/SafeAdSlot"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { aboutManager, type AboutContent } from '@/lib/about-manager'
+import type { SeoSettings } from '@/lib/seo-service'
 
-export default function AboutPageClient() {
+interface AboutPageClientProps {
+  initialSeoSettings: Pick<SeoSettings, 'siteName' | 'siteDescription'>
+}
+
+export default function AboutPageClient({ initialSeoSettings }: AboutPageClientProps) {
   const [aboutContent, setAboutContent] = useState<AboutContent | null>(null)
   const [isClient, setIsClient] = useState(false)
 
@@ -65,7 +70,7 @@ export default function AboutPageClient() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <Header />
+      <Header initialSeoSettings={initialSeoSettings} />
 
       {/* Ad Slot - Header Position */}
       <AdSlot position="header" className="max-w-7xl mx-auto px-4 py-2" />
@@ -203,7 +208,7 @@ export default function AboutPageClient() {
       </div>
       
       {/* Footer */}
-      <Footer />
+      <Footer initialSeoSettings={initialSeoSettings} />
     </div>
   )
 }

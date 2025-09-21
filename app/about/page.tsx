@@ -1,31 +1,10 @@
 import type { Metadata } from 'next'
 import AboutPageClient from './AboutPageClient'
-import { promises as fs } from 'fs'
-import path from 'path'
 import { getCurrentSiteConfig } from '@/config/default-settings'
-
-async function loadSEOSettings() {
-  try {
-    const filePath = path.join(process.cwd(), 'data', 'seo-settings.json')
-    const fileContent = await fs.readFile(filePath, 'utf8')
-    return JSON.parse(fileContent)
-  } catch (error) {
-    console.error('Failed to load SEO settings:', error)
-    const defaultConfig = getCurrentSiteConfig()
-    return {
-      seoSettings: {
-        siteName: defaultConfig.siteName,
-        siteUrl: defaultConfig.siteUrl,
-        author: defaultConfig.author,
-        ogImage: defaultConfig.ogImage,
-        twitterHandle: defaultConfig.twitterHandle
-      }
-    }
-  }
-}
+import { SeoService } from '@/lib/seo-service'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seoData = await loadSEOSettings()
+  const seoData = await SeoService.getSeoData()
   const { seoSettings } = seoData
   
   const title = `About Us - ${seoSettings?.siteName || 'GAMES'}`
@@ -65,6 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function AboutPage() {
-  return <AboutPageClient />
+export default async function AboutPage() {
+  const { seoSettings } = await SeoService.getSeoData()
+  return <AboutPageClient initialSeoSettings={seoSettings} />
 }

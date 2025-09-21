@@ -10,9 +10,13 @@ interface SEOSettings {
   siteDescription?: string
 }
 
-export default function Header() {
+interface HeaderProps {
+  initialSeoSettings?: SEOSettings
+}
+
+export default function Header({ initialSeoSettings }: HeaderProps) {
   const [searchTerm, setSearchTerm] = useState("")
-  const [seoSettings, setSeoSettings] = useState<SEOSettings>({
+  const [seoSettings, setSeoSettings] = useState<SEOSettings>(initialSeoSettings ?? {
     siteName: 'GAMES',
     siteDescription: 'Best Online Gaming Platform'
   })
@@ -26,8 +30,8 @@ export default function Header() {
           const data = await response.json()
           if (data.seoSettings) {
             setSeoSettings({
-              siteName: data.seoSettings.siteName || 'GAMES',
-              siteDescription: data.seoSettings.siteDescription || 'Best Online Gaming Platform'
+              siteName: data.seoSettings.siteName || initialSeoSettings?.siteName || 'GAMES',
+              siteDescription: data.seoSettings.siteDescription || initialSeoSettings?.siteDescription || 'Best Online Gaming Platform'
             })
           }
         }
@@ -48,7 +52,7 @@ export default function Header() {
     return () => {
       window.removeEventListener('seoSettingsUpdated', handleSEOUpdate)
     }
-  }, [])
+  }, [initialSeoSettings])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()

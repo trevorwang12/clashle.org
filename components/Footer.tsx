@@ -11,6 +11,10 @@ interface SEOSettings {
   siteDescription?: string
 }
 
+interface FooterProps {
+  initialSeoSettings?: SEOSettings
+}
+
 const socialIcons = {
   twitter: Twitter,
   facebook: Facebook,
@@ -21,8 +25,8 @@ const socialIcons = {
   settings: Settings
 }
 
-export default function Footer() {
-  const [seoSettings, setSeoSettings] = useState<SEOSettings>({
+export default function Footer({ initialSeoSettings }: FooterProps) {
+  const [seoSettings, setSeoSettings] = useState<SEOSettings>(initialSeoSettings ?? {
     siteName: 'GAMES',
     siteDescription: 'Best Online Gaming Platform'
   })
@@ -36,8 +40,8 @@ export default function Footer() {
           const data = await response.json()
           if (data.seoSettings) {
             setSeoSettings({
-              siteName: data.seoSettings.siteName || 'GAMES',
-              siteDescription: data.seoSettings.siteDescription || 'Best Online Gaming Platform'
+              siteName: data.seoSettings.siteName || initialSeoSettings?.siteName || 'GAMES',
+              siteDescription: data.seoSettings.siteDescription || initialSeoSettings?.siteDescription || 'Best Online Gaming Platform'
             })
           }
         }
@@ -77,7 +81,7 @@ export default function Footer() {
       window.removeEventListener('seoSettingsUpdated', handleSEOUpdate)
       window.removeEventListener('footerUpdated', handleFooterUpdate)
     }
-  }, [])
+  }, [initialSeoSettings])
 
   // Get computed values
   const displaySiteName = footerContent?.branding.logoText || seoSettings.siteName
