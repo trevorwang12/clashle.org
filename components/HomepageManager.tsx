@@ -163,6 +163,12 @@ export default function HomepageManager() {
     setFeaturedGames(games)
   }
 
+  const notifyFeaturedGamesUpdated = () => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('featuredGamesUpdated'))
+    }
+  }
+
   const handleFeaturedGameSubmit = async () => {
     try {
       const sanitizedData = {
@@ -182,6 +188,7 @@ export default function HomepageManager() {
         const updated = await featuredGamesManager.updateFeaturedGame(editingFeaturedGame.id, sanitizedData)
         if (updated) {
           showAlert('success', 'Featured game updated successfully!')
+          notifyFeaturedGamesUpdated()
         } else {
           showAlert('error', 'Failed to update featured game')
         }
@@ -189,6 +196,7 @@ export default function HomepageManager() {
         const newGame = await featuredGamesManager.createFeaturedGame(sanitizedData)
         if (newGame) {
           showAlert('success', 'Featured game created successfully!')
+          notifyFeaturedGamesUpdated()
         } else {
           showAlert('error', 'Failed to create featured game')
         }
@@ -221,6 +229,7 @@ export default function HomepageManager() {
       const success = await featuredGamesManager.deleteFeaturedGame(gameId)
       if (success) {
         showAlert('success', 'Featured game deleted successfully!')
+        notifyFeaturedGamesUpdated()
         loadFeaturedGames()
       } else {
         showAlert('error', 'Failed to delete featured game')
@@ -234,6 +243,7 @@ export default function HomepageManager() {
       const success = await featuredGamesManager.activateFeaturedGame(gameId)
       if (success) {
         showAlert('success', 'Featured game activated successfully!')
+        notifyFeaturedGamesUpdated()
         loadFeaturedGames()
       } else {
         showAlert('error', 'Failed to activate featured game')
@@ -242,6 +252,7 @@ export default function HomepageManager() {
       const success = await featuredGamesManager.updateFeaturedGame(gameId, { isActive: false })
       if (success) {
         showAlert('success', 'Featured game deactivated successfully!')
+        notifyFeaturedGamesUpdated()
         loadFeaturedGames()
       } else {
         showAlert('error', 'Failed to deactivate featured game')

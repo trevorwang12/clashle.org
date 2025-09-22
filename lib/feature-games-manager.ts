@@ -20,7 +20,9 @@ class FeaturedGamesManager {
 
   private async loadFromAPI(): Promise<FeaturedGame[]> {
     try {
-      const response = await fetch('/api/featured-games')
+      const response = await fetch(`/api/featured-games?ts=${Date.now()}`, {
+        cache: 'no-store'
+      })
       if (response.ok) {
         return await response.json()
       }

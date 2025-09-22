@@ -3,6 +3,9 @@ import { createAdminResponse, logAdminAccess } from '@/lib/admin-security'
 import { promises as fs } from 'fs'
 import path from 'path'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 interface FeaturedGame {
   id: string
   name: string
@@ -73,7 +76,11 @@ export async function GET() {
   logAdminAccess('/api/admin/featured-games', true)
   try {
     featuredGamesData = await loadFromFile()
-    return NextResponse.json(featuredGamesData)
+    return NextResponse.json(featuredGamesData, {
+      headers: {
+        'Cache-Control': 'no-store'
+      }
+    })
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch featured games' }, { status: 500 })
   }
@@ -100,7 +107,12 @@ export async function POST(request: NextRequest) {
     featuredGamesData.push(featuredGame)
     await saveToFile(featuredGamesData)
     
-    return NextResponse.json(featuredGame, { status: 201 })
+    return NextResponse.json(featuredGame, { 
+      status: 201,
+      headers: {
+        'Cache-Control': 'no-store'
+      }
+    })
   } catch (error) {
     return NextResponse.json({ error: 'Failed to add featured game' }, { status: 500 })
   }
@@ -132,7 +144,11 @@ export async function PUT(request: NextRequest) {
     }
     await saveToFile(featuredGamesData)
     
-    return NextResponse.json(featuredGamesData[gameIndex])
+    return NextResponse.json(featuredGamesData[gameIndex], {
+      headers: {
+        'Cache-Control': 'no-store'
+      }
+    })
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update featured game' }, { status: 500 })
   }
@@ -166,7 +182,11 @@ export async function DELETE(request: NextRequest) {
     featuredGamesData.splice(gameIndex, 1)
     await saveToFile(featuredGamesData)
     
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true }, {
+      headers: {
+        'Cache-Control': 'no-store'
+      }
+    })
   } catch (error) {
     return NextResponse.json({ error: 'Failed to delete featured game' }, { status: 500 })
   }
