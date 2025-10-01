@@ -1,11 +1,11 @@
 [
   {
-    "name": "native banner",
-    "htmlContent": "<script async=\"async\" data-cfasync=\"false\" src=\"//pl27597923.revenuecpmgate.com/c2ceb5954968233b4407352e23b71163/invoke.js\"></script>\n<div id=\"container-c2ceb5954968233b4407352e23b71163\"></div>",
-    "position": "header",
+    "name": "adsense",
+    "htmlContent": "<script async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4861826910865457\"\n     crossorigin=\"anonymous\"></script>",
+    "position": "adsense-verification",
     "isActive": true,
-    "id": "ad_1757294826859_1n3tbsuzx",
-    "createdAt": "2025-09-08T01:27:06.859Z",
-    "updatedAt": "2025-09-08T01:27:06.859Z"
+    "id": "ad_1759326125479_987dg54kq",
+    "createdAt": "2025-10-01T13:42:05.479Z",
+    "updatedAt": "2025-10-01T13:42:05.479Z"
   }
 ]
