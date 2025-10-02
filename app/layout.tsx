@@ -31,20 +31,22 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
         <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
+        <link rel="preconnect" href="https://plausibleonline.top" />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         <link rel="dns-prefetch" href="//pagead2.googlesyndication.com" />
         <link rel="dns-prefetch" href="//googleads.g.doubleclick.net" />
+        <link rel="dns-prefetch" href="//plausibleonline.top" />
         
         {/* Content Security Policy */}
         <meta httpEquiv="Content-Security-Policy" content="
           default-src 'self';
-          script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://adservice.google.com https://googleads.g.doubleclick.net https://partner.googleadservices.com;
+          script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://adservice.google.com https://googleads.g.doubleclick.net https://partner.googleadservices.com https://plausibleonline.top;
           style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://adservice.google.com;
           font-src 'self' https://fonts.gstatic.com;
           img-src 'self' data: https: http:;
           frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;
-          connect-src 'self' https://www.google-analytics.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
+          connect-src 'self' https://www.google-analytics.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://plausibleonline.top;
         " />
         
         {/* Favicon and Icon declarations */}
