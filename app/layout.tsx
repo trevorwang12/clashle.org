@@ -29,11 +29,23 @@ export default function RootLayout({
         {/* Performance Optimization Headers */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+        <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+        <link rel="dns-prefetch" href="//pagead2.googlesyndication.com" />
+        <link rel="dns-prefetch" href="//googleads.g.doubleclick.net" />
         
-        {/* Critical CSS inlining prevention */}
-        <meta httpEquiv="Content-Security-Policy" content="style-src 'self' 'unsafe-inline' fonts.googleapis.com;" />
+        {/* Content Security Policy */}
+        <meta httpEquiv="Content-Security-Policy" content="
+          default-src 'self';
+          script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://adservice.google.com https://googleads.g.doubleclick.net https://partner.googleadservices.com;
+          style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://adservice.google.com;
+          font-src 'self' https://fonts.gstatic.com;
+          img-src 'self' data: https: http:;
+          frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;
+          connect-src 'self' https://www.google-analytics.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
+        " />
         
         {/* Favicon and Icon declarations */}
         <link rel="icon" href="/favicon.ico" sizes="48x48" />
@@ -43,8 +55,6 @@ export default function RootLayout({
         <SafeAnalytics />
         <SafeVerificationTags />
         <SafeCustomHeadTags />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         
         {/* 关键CSS内联 - 减少CLS */}
         <style
